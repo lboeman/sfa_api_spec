@@ -1,4 +1,4 @@
-openapi: '3.0.2'
+openapi: 3.0.2
 info:
   description: The Solar Forecast Arbiter API.
   version: 0.0.0
@@ -7,294 +7,312 @@ info:
     name: Solar Forecast Arbiter Team
     url: solarforecastarbiter.org
     email: info@solarforecastarbiter.org
-servers: 
-- url: api.solarforecastarbiter.org
-  description: The production server.
+servers:
+  - url: api.solarforecastarbiter.org
+    description: The production server.
 components:
   parameters:
     uuid:
       name: uuid
-      description: 'Universally Unique Identifier for the resource.'
+      description: Universally Unique Identifier for the resource.
       in: path
       required: true
       schema:
         type: string
+    start:
+      name: start
+      description: ISO datetime for start of data/forecast.
+      in: query
+      required: true
+      schema: 
+        type: string
+    end:
+      name: end
+      description: ISO datetime for end of data/forecast.
+      in: query
+      required: true
+      schema:
+        type: string
 tags:
-- name: Observations
-  description: Interact with observation data.
-- name: Forecasts
-  description: Interact with forecast data.
-- name: Reference
-  description: Interact with Reference data.
-- name: User
-  description: Manage accounts/users
-- name: Organization
-  description: Manage organizations.
-- name: Trial
-  description: Manage trials.
+  - name: Observations
+    description: Interact with observation data.
+  - name: Forecasts
+    description: Interact with forecast data.
+  - name: Reference
+    description: Interact with Reference data.
+  - name: User
+    description: Manage accounts/users
+  - name: Organization
+    description: Manage organizations.
+  - name: Trial
+    description: Manage trials.
 paths:
   /observations:
-    post: 
+    post:
       summary: Add a new observation data point.
-      description: 'Creates a new data point from metadata and returns a uuid.'
+      description: Creates a new data point from metadata and returns a uuid.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Observations
+      tags:
+        - Observations
     get:
       summary: List uuids of observation data points.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Observations
+      tags:
+        - Observations
   /observations/metadata:
     get:
       summary: Get json list of data points.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Observations
-  /observations/{uuid}:
+      tags:
+        - Observations
+  '/observations/{uuid}':
     parameters:
       - $ref: '#/components/parameters/uuid'
     get:
-      summary: 'Returns applicable endpoints for the data point.'
+      summary: Returns applicable endpoints for the data point.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
+        - Observations
     put:
-      summary: 'Update the metadata associated with a datapoint.'
+      summary: Update the metadata associated with a datapoint.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
+        - Observations
     delete:
-      summary: 'Delete the data point specified by uuid.'
+      summary: Delete the data point specified by uuid.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
-    
-  /observations/{uuid}/values:
+        - Observations
+  '/observations/{uuid}/values':
     parameters:
       - $ref: '#/components/parameters/uuid'
     post:
       summary: Add observation data to the data point.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
+        - Observations
     get:
       summary: Returns the observation data from the data point.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
-  /observations/{uuid}/metadata:
+        - Observations
+      parameters:
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+  '/observations/{uuid}/metadata':
     parameters:
       - $ref: '#/components/parameters/uuid'
     get:
       summary: Get metadata for the resource.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Observations
+        - Observations
   /forecasts:
-    post: 
+    post:
       summary: Add a new observation data point.
-      description: 'Creates a new data point from metadata and returns a uuid.'
+      description: Creates a new data point from metadata and returns a uuid.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Forecasts
+      tags:
+        - Forecasts
     get:
       summary: List uuids of observation data points.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Forecasts
+      tags:
+        - Forecasts
   /forecasts/metadata:
     get:
       summary: Get json list of data points.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - Forecasts
-  /forecasts/{uuid}:
+      tags:
+        - Forecasts
+  '/forecasts/{uuid}':
     parameters:
       - $ref: '#/components/parameters/uuid'
     get:
-      summary: 'Returns applicable endpoints for the data point.'
+      summary: Returns applicable endpoints for the data point.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
+        - Forecasts
     put:
-      summary: 'Update the metadata associated with a data point.'
+      summary: Update the metadata associated with a data point.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
+        - Forecasts
     delete:
-      summary: 'Delete the data point specified by uuid.'
+      summary: Delete the data point specified by uuid.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
-    
-  /forecasts/{uuid}/values:
+        - Forecasts
+  '/forecasts/{uuid}/values':
     parameters:
       - $ref: '#/components/parameters/uuid'
     post:
       summary: Add forecast data to the data point.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
+        - Forecasts
     get:
       summary: Returns the forecast data from the data point.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
-  /forecasts/{uuid}/metadata:
+        - Forecasts
+      parameters:
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+  '/forecasts/{uuid}/metadata':
     parameters:
       - $ref: '#/components/parameters/uuid'
     get:
       summary: Get metadata for the resource.
       description: ''
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Forecasts
+        - Forecasts
   /user:
     get:
       summary: List users that current user has access to manage.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - User
+      tags:
+        - User
     post:
       summary: Create a new user.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - User
-  /user/{uuid}:
+        - User
+  '/user/{uuid}':
     parameters:
-    - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/uuid'
     get:
       summary: Get information about user specified by uuid.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - User
+      tags:
+        - User
     put:
       summary: Update information for user specified by uuid.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - User
+      tags:
+        - User
     delete:
       summary: Delete the user specified by uuid.
       responses:
-        200:
+        '200':
           description: OK
-      tags: 
-      - User
+      tags:
+        - User
   /organization:
     get:
       summary: List organizations.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Organization
+        - Organization
     post:
       summary: Create a new organization.
       responses:
-        200:
+        '200':
           description: OK\
       tags:
-      - Organization
-  /organization/{uuid}:
+        - Organization
+  '/organization/{uuid}':
     parameters:
-    - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/uuid'
     get:
       summary: Get organization information by uuid.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Organization
+        - Organization
     put:
       summary: Update organization information by uui.d
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Organization
+        - Organization
   /trial:
     get:
       summary: List trials.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Trial
+        - Trial
     post:
       summary: Create new trial
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Trial
-  /trial/{uuid}:
+        - Trial
+  '/trial/{uuid}':
     parameters:
-    - $ref: '#/components/parameters/uuid'
+      - $ref: '#/components/parameters/uuid'
     put:
       summary: Update trial.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Trial
+        - Trial
     delete:
       summary: Remove a trial.
       responses:
-        200:
+        '200':
           description: OK
       tags:
-      - Trial
+        - Trial
