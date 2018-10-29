@@ -1,14 +1,15 @@
 # JSON API response objects
 Solar Forecast arbiter API response objects based on the [JSON API](https://jsonapi.org/)
 
-Observations/Forecasts
+## Observations/Forecasts
+Full Resource example.
 ```
 {
 	"data":{
-		"type": "observations",				# data type/ api path
-		"id": "1234567891011121314",		# uuid
-		"attributes": {                     # db fields
-			"name": "Ashland OR", 			
+		"type": "observations",
+		"id": "1234567891011121314",
+		"attributes": {
+			"name": "Ashland OR",
 			"resolution": "1 min",
 			"latitude": "42.190000",
 			"longitude": "-122.700000",
@@ -24,7 +25,7 @@ Observations/Forecasts
 		},
 		"relationships":{
 			"provider":{
-				"data":{							# id/type of organization that provided the data
+				"data":{
 					"type": "organizations",
 					"id": "10293847561029384756",
 				},
@@ -44,41 +45,48 @@ Observations/Forecasts
 	}]	
 }
 ```
-Updates:
-	Resources:
-	```
-	https://jsonapi.org/format/#crud-updating
-	example: updates the below observation object's timezone to UTC
+### Updating:
 
-		PATCH /observations/<uuid> HTTP/1.1
-		Content-Type: application/vnd.api+json
-		Accept: application/vnd.api+json
+Updates are handled with the `PATCH` http verb.
 
-		{
-			"data":{
-				"type": "observations",
-				"id": "1234567891011121314",
-				"attributes": {
-					"timezone": "UTC",
-				}
-			}
+- #### Resources  
+To update a resources fields/metadata directly a PATCH request can be made to the resource's uri with the fields you wish to update.   
+https://jsonapi.org/format/#crud-updating  
+Example: updates the below observation object's timezone to UTC  
+
+```
+PATCH /observations/1234567891011121314 HTTP/1.1
+Content-Type: application/vnd.api+json
+Accept: application/vnd.api+json
+
+{
+	"data":{
+		"type": "observations",
+		"id": "1234567891011121314",
+		"attributes": {
+			"timezone": "UTC",
 		}
-	```
-Relationships:
-	https://jsonapi.org/format/#crud-updating-relationships
-	example: updates provider to different 
-	```
-		PATCH: /observations/<uuid>/provider
-		Content-Type: application/vnd.api+json
-		Accept: application/vnd.api+json
+	}
+}
+```
+- #### Relationships  
+To update relationship between resources a PATCH request can be made to the uri of the resource to which the relationship is assigned.  
+https://jsonapi.org/format/#crud-updating-relationships  
+Example: Updates provider relationship of a data (observation/forecast) resource.   
 
-		{
-			"data": { "type": "organizations", "id": "<uuid>" }
-		}
-	```
+```
+PATCH: /observations/1234567891011121314/provider
+Content-Type: application/vnd.api+json
+Accept: application/vnd.api+json
+
+{
+	"data": { "type": "organizations", "id": "<uuid>" }
+}
+```
 
 
-ORGANIZATIONS
+Organizations
+```
 {
 	"data":{
 		"type": "organizations",
@@ -93,8 +101,8 @@ ORGANIZATIONS
 		"relationships": {
 			"users": {
 				"data": [
-					{"type": "users", "id": "12"}, #probably a uuid instead of 2 digit number
-					{"type": "users", "id": "13"},
+					{"type": "users", "id": "<uuid>"},
+					{"type": "users", "id": "<uuid>"},
 				] 
 			},
 			"observations": {
@@ -125,3 +133,4 @@ ORGANIZATIONS
 		...
     ]
 }
+```
