@@ -1,9 +1,48 @@
 # JSON API response objects
-Solar Forecast arbiter API response objects based on the [JSON API](https://jsonapi.org/)
+**Objects and specification described in this document are provisional and subject to change**
+
+Solar Forecast arbiter API based on the [JSON API](https://jsonapi.org/) specification.
+
+This document is organized into sections based on resource type with sub sections describing specific *CRUD* (CREATE READ UPDATE DELETE) interactions.
 
 ## Observations/Forecasts
-Full Resource example.
+### Create
+- #### Resource
+Observation resources can be created by making a `POST` request with a payload containing a resource object without an `id` to the `/observation` endpoint.
+
 ```
+POST /observations HTTP/1.1
+Accept: application/vnd.api+json
+
+{
+	"data": {
+		"type": "observations",
+		"attributes": {
+			"name": "Ashland OR",
+            "resolution": "1 min",
+            "latitude": "42.190000",
+            "longitude": "-122.700000",
+            "elevation": "595",
+            "station_id": "94040",
+            "abbreviation": "AS",
+            "timezone": "Etc/GMT+8",
+            "attribution":  "NaN",
+            "source": "UO SRML",
+		}
+	}
+}
+```
+
+### Read
+- #### Resource
+To retrieve metadata about a data resource, a get request can be made to its uri.  
+https://jsonapi.org/format/#fetching-resources  
+Example: Get an observation resource.
+
+```
+GET /observations/1234567891011121314 HTTP/1.1
+Accept: application/vnd.api+json
+
 {
 	"data":{
 		"type": "observations",
@@ -15,7 +54,7 @@ Full Resource example.
 			"longitude": "-122.700000",
 			"elevation": "595",
 			"station_id": "94040",
-		    "abbreviation":	"AS",
+			"abbreviation":	"AS",
 			"timezone": "Etc/GMT+8",
 			"attribution":	"NaN",
 			"source": "UO SRML",
@@ -45,7 +84,7 @@ Full Resource example.
 	}]	
 }
 ```
-### Updating:
+### Update
 
 Updates are handled with the `PATCH` http verb.
 
@@ -85,8 +124,13 @@ Accept: application/vnd.api+json
 ```
 
 
-Organizations
+## Organizations
+
+### Read
+
 ```
+GET /organizations/1029 HTTP/1.1
+Accept: application/vnd.api+json
 {
 	"data":{
 		"type": "organizations",
